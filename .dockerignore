@@ -1,0 +1,35 @@
+# Dependencies — always rebuilt inside the container
+node_modules
+
+# Environment secrets — NEVER bake into an image
+.env
+.env.*
+!.env.example
+
+# Git history — not needed at runtime
+.git
+.gitignore
+
+# Logs
+logs
+*.log
+npm-debug.log*
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor files
+.vscode
+.idea
+*.swp
+*.swo
+
+# Test output
+coverage
+.nyc_output
+
+# Docker files themselves (no need to copy these in)
+Dockerfile
+docker-compose.yml
+.dockerignore
