@@ -20,6 +20,21 @@ app.use(express.json());
 app.engine("handlebars", exphbs({ defaultLayout: "main" }));
 app.set("view engine", "handlebars");
 
+// ── Health check endpoint ──────────────────────────────────────
+// Must be registered BEFORE routes so it always responds,
+// even if something else in the app is broken.
+// Actively pings the DB on every call — does not just check
+// whether the app started, but whether the DB is reachable NOW.
+app.get("/health", async (req, res) => {
+  try {
+    await db.sequelize.authenticate();
+    res.status(200).json({ status: "ok", db: "reachable" });
+  } catch (err) {
+    res.status(503).json({ status: "error", db: "unreachable" });
+  }
+});
+// ──────────────────────────────────────────────────────────────
+
 require("./routes/cart-api-routes")(app);
 
 console.log("going to html route");

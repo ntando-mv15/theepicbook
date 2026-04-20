@@ -45,6 +45,12 @@ services:
       - backend
       - frontend
 
+    healthcheck:
+        test: ["CMD", "wget", "-qO-", "http://localhost:8080/health"]
+        interval: 10s
+        timeout: 5s
+        retries: 5
+        start_period: 15s  
 
     depends_on:
       db:
@@ -74,6 +80,13 @@ services:
 
     networks:
       - frontend
+    
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:8080/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 15s
 
     depends_on:
       - app
